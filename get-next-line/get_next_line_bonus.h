@@ -3,19 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aasaad-h < aasaad-h@student.42malaga.co    +#+  +:+       +#+        */
+/*   By: aasaad-h <aasaad-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/26 16:00:34 by aasaad-h          #+#    #+#             */
-/*   Updated: 2024/05/26 16:02:12 by aasaad-h         ###   ########.fr       */
+/*   Created: 2024/05/10 18:46:50 by aassaad-          #+#    #+#             */
+/*   Updated: 2024/06/03 00:43:10 by aasaad-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
+# include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# include <unistd.h>
+# include <stdio.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 15
+# endif
 
 char	*get_next_line(int fd);
 int		ft_strlen(const char *str);

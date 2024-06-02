@@ -3,84 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aasaad-h < aasaad-h@student.42malaga.co    +#+  +:+       +#+        */
+/*   By: aasaad-h <aasaad-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:58:42 by aasaad-h          #+#    #+#             */
-/*   Updated: 2024/05/26 16:02:18 by aasaad-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 01:09:28 by aasaad-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(const char *str)
+char	*ft_strdup(char *s1)
+{
+	char			*dest;
+	unsigned int	i;
+
+	dest = (char *) malloc(ft_strlen(s1) + 1);
+	if (!dest)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
+}
+
+size_t	ft_strlen(char *s)
 {
 	int	i;
 
 	i = 0;
-	while (str && str[i] != '\0')
+	while (s[i])
 		i++;
 	return (i);
 }
 
-int	ft_strchr(const char *s, int c)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
-	int	i;
+	size_t	i;
+	char	*str;
 
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (malloc(1));
+	if (len > ft_strlen(s + start))
+		len = ft_strlen(s + start);
+	str = malloc((len + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
 	i = 0;
-	while (s && s[i] != '\0')
+	while (i < len)
 	{
-		if (s[i] == (char)c)
-			return (i);
+		str[i] = s[start + i];
 		i++;
 	}
-	return (i);
+	str[i] = 0;
+	return (str);
 }
 
-void	*ft_calloc(int count, int size)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	void	*ptr;
-	int		i;
+	char			*res;
 
-	ptr = malloc(count * size);
-	if (ptr == NULL)
+	res = (char *) malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!res)
 		return (NULL);
+	fill_str(res, s1, s2);
+	return (res);
+}
+
+void	fill_str(char *res, char *s1, char *s2)
+{
+	unsigned int	i;
+	unsigned int	j;
+
 	i = 0;
-	while (i < (count * size))
-		((char *)ptr)[i++] = '\0';
-	return (ptr);
-}
-
-int	check_nl(char *ln)
-{
-	if (!ln)
-		return (-1);
-	while (*ln != '\0' && *ln != '\n')
-		ln++;
-	if (*ln == '\n')
-		return (1);
-	return (0);
-}
-
-char	*copy_line(char *ans, char *ln)
-{
-	int		i;
-	int		j;
-	int		k;
-	char	*ret;
-
-	if (!ans && !ln)
-		return (NULL);
-	i = ft_strchr(ln, '\n') + 1;
-	j = ft_strlen(ans);
-	ret = ft_calloc(j + i + 1, 1);
-	k = -1;
-	while (++k < (i + j))
-	{
-		if (k < j)
-			ret[k] = ans[k];
-		else
-			ret[k] = *ln++;
-	}
-	free(ans);
-	return (ret);
+	j = 0;
+	while (s1[j])
+		res[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		res[i++] = s2[j++];
+	res[i] = '\0';
 }

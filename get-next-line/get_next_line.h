@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aasaad-h < aasaad-h@student.42malaga.co    +#+  +:+       +#+        */
+/*   By: aasaad-h <aasaad-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:58:10 by aasaad-h          #+#    #+#             */
-/*   Updated: 2024/05/26 16:02:22 by aasaad-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 00:54:43 by aasaad-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-int		ft_strlen(const char *str);
-void	*ft_calloc(int count, int size);
-int		ft_strchr(const char *s, int c);
-int		check_nl(char *ln);
-char	*copy_line(char *ans, char *ln);
-char	*shift_ln(char *ln);
+char	*ft_strdup(char *s);
+size_t	ft_strlen(char *s);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*ft_strjoin(char *s1, char *s2);
+void	fill_str(char *res, char *s1, char *s2);
 
 #endif

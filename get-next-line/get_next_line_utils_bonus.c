@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aasaad-h < aasaad-h@student.42malaga.co    +#+  +:+       +#+        */
+/*   By: aasaad-h <aasaad-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/26 15:58:57 by aasaad-h          #+#    #+#             */
-/*   Updated: 2024/05/26 16:02:15 by aasaad-h         ###   ########.fr       */
+/*   Created: 2024/05/10 18:47:04 by aassaad-          #+#    #+#             */
+/*   Updated: 2024/06/03 00:43:04 by aasaad-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_strchr(const char *s, int c)
 	i = 0;
 	while (s && s[i] != '\0')
 	{
-		if (s[i] == (char)c)
+		if (s[i] == (char) c)
 			return (i);
 		i++;
 	}
@@ -46,7 +46,7 @@ void	*ft_calloc(int count, int size)
 		return (NULL);
 	i = 0;
 	while (i < (count * size))
-		((char *)ptr)[i++] = '\0';
+		((char *) ptr)[i++] = '\0';
 	return (ptr);
 }
 
@@ -81,6 +81,6 @@ char	*copy_line(char *ans, char *ln)
 		else
 			ret[k] = *ln++;
 	}
-	free(ans);
+	free (ans);
 	return (ret);
 }

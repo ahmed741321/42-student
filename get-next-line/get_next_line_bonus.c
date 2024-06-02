@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aasaad-h < aasaad-h@student.42malaga.co    +#+  +:+       +#+        */
+/*   By: aassaad- <aassaad-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/26 16:00:46 by aasaad-h          #+#    #+#             */
-/*   Updated: 2024/05/26 16:02:09 by aasaad-h         ###   ########.fr       */
+/*   Created: 2024/05/10 18:45:34 by aassaad-          #+#    #+#             */
+/*   Updated: 2024/05/22 18:48:59 by aassaad-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ char	*shift_ln(char *ln)
 	ret = ft_calloc(BUFFER_SIZE + 1, 1);
 	while (nl < BUFFER_SIZE && ln[nl] != '\0')
 		ret[i++] = ln[nl++];
-	free(ln);
+	free (ln);
 	if (*ret == '\0')
 	{
-		free(ret);
+		free (ret);
 		return (NULL);
 	}
 	return (ret);
@@ -43,16 +43,16 @@ char	*get_next_line(int fd)
 	ans = copy_line(NULL, ln[fd]);
 	while (check_nl(ln[fd]) < 1)
 	{
-		free(ln[fd]);
+		free (ln[fd]);
 		ln[fd] = ft_calloc(BUFFER_SIZE + 1, 1);
 		ret = read(fd, ln[fd], BUFFER_SIZE);
 		if (ret <= 0)
 		{
-			free(ln[fd]);
+			free (ln[fd]);
 			ln[fd] = NULL;
 			if (ans != NULL && ret != -1)
 				return (ans);
-			free(ans);
+			free (ans);
 			return (NULL);
 		}
 		ans = copy_line(ans, ln[fd]);

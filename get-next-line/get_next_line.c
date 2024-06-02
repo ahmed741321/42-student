@@ -3,60 +3,108 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aasaad-h < aasaad-h@student.42malaga.co    +#+  +:+       +#+        */
+/*   By: aasaad-h <aasaad-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:58:29 by aasaad-h          #+#    #+#             */
-/*   Updated: 2024/05/26 16:02:20 by aasaad-h         ###   ########.fr       */
+/*   Updated: 2024/06/03 00:27:29 by aasaad-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*shift_ln(char *ln)
-{
-	int		i;
-	int		nl;
-	char	*ret;
-
-	i = 0;
-	nl = ft_strchr(ln, '\n') + 1;
-	ret = ft_calloc(BUFFER_SIZE + 1, 1);
-	while (nl < BUFFER_SIZE && ln[nl] != '\0')
-		ret[i++] = ln[nl++];
-	free(ln);
-	if (*ret == '\0')
-	{
-		free(ret);
-		return (NULL);
-	}
-	return (ret);
-}
+char		*_fill_line_buffer(int fd, char *left_c, char *buffer);
+char		*_set_line(char *line);
+static char	*ft_strchr(char *s, int c);
 
 char	*get_next_line(int fd)
 {
-	static char	*ln;
-	char		*ans;
-	int			ret;
+	static char	*left_c;
+	char		*line;
+	char		*buffer;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
-		return (NULL);
-	ans = copy_line(NULL, ln);
-	while (check_nl(ln) < 1)
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
-		free(ln);
-		ln = ft_calloc(BUFFER_SIZE + 1, 1);
-		ret = read(fd, ln, BUFFER_SIZE);
-		if (ret <= 0)
+		free(left_c);
+		free(buffer);
+		left_c = NULL;
+		buffer = NULL;
+		return (NULL);
+	}
+	if (!buffer)
+		return (NULL);
+	line = _fill_line_buffer(fd, left_c, buffer);
+	free(buffer);
+	buffer = NULL;
+	if (!line)
+		return (NULL);
+	left_c = _set_line(line);
+	return (line);
+}
+
+char	*_set_line(char *line_buffer)
+{
+	char	*left_c;
+	ssize_t	i;
+
+	i = 0;
+	while (line_buffer[i] != '\n' && line_buffer[i] != '\0')
+		i++;
+	if (line_buffer[i] == 0 || line_buffer[1] == 0)
+		return (NULL);
+	left_c = ft_substr(line_buffer, i + 1, ft_strlen(line_buffer) - i);
+	if (*left_c == 0)
+	{
+		free(left_c);
+		left_c = NULL;
+	}
+	line_buffer[i + 1] = 0;
+	return (left_c);
+}
+
+char	*_fill_line_buffer(int fd, char *left_c, char *buffer)
+{
+	ssize_t	b_read;
+	char	*tmp;
+
+	b_read = 1;
+	while (b_read > 0)
+	{
+		b_read = read(fd, buffer, BUFFER_SIZE);
+		if (b_read == -1)
 		{
-			free(ln);
-			ln = NULL;
-			if (ans != NULL && ret != -1)
-				return (ans);
-			free(ans);
+			free(left_c);
 			return (NULL);
 		}
-		ans = copy_line(ans, ln);
+		else if (b_read == 0)
+			break ;
+		buffer[b_read] = 0;
+		if (!left_c)
+			left_c = ft_strdup("");
+		tmp = left_c;
+		left_c = ft_strjoin(tmp, buffer);
+		free(tmp);
+		tmp = NULL;
+		if (ft_strchr(buffer, '\n'))
+			break ;
 	}
-	ln = shift_ln(ln);
-	return (ans);
+	return (left_c);
+}
+
+static char	*ft_strchr(char *s, int c)
+{
+	unsigned int	i;
+	char			cc;
+
+	cc = (char)c;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == cc)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if (s[i] == cc)
+		return ((char *)&s[i]);
+	return (NULL);
 }
